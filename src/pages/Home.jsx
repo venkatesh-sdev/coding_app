@@ -75,7 +75,7 @@ const Home = () => {
     };
 
     return (
-        <div className='w-screen h-screen bg-gray-800'>
+        <div className='min-w-screen h-screen bg-gray-800 overflow-x-scroll'>
             {/* Menu */}
             <Menu handleCompileCode={handleCompileCode} handleCreateFile={handleCreateFile} handleSaveFile={handleSaveFile} />
             {/* Files and Coding Space and Question */}

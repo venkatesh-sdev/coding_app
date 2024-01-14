@@ -83,7 +83,7 @@ const Home = () => {
                 {/* Files and Coding Space */}
                 <div className='w-[70%]'>
                     {/* Files */}
-                    <FilesList files={files} handleCloseFile={handleCloseFile} handleFileChange={handleFileChange} />
+                    <FilesList activeIndex={activeIndex} files={files} handleCloseFile={handleCloseFile} handleFileChange={handleFileChange} />
                     {/* CodingSpace */}
                     <CodeEditor editorCode={editorCode} files={files} handleCreateFile={handleCreateFile} handleEditorChange={handleEditorChange} isThemeLoaded={isThemeLoaded} />
                 </div>

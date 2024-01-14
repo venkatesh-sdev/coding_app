@@ -3,7 +3,7 @@
 import { Editor } from '@monaco-editor/react';
 const CodeEditor = ({ files, handleEditorChange, isThemeLoaded, editorCode, handleCreateFile }) => {
     return (
-        <div className='w-full h-[calc(100vh-96px)] flex relative'>
+        <div className='w-full h-[calc(100vh-96px)] flex relative text-white uppercase tracking-widest'>
             {files.length !== 0 ?
                 <Editor
                     language='javascript'
@@ -13,7 +13,9 @@ const CodeEditor = ({ files, handleEditorChange, isThemeLoaded, editorCode, hand
                     theme={isThemeLoaded ? "Blackboard" : "dark"}
                     value={editorCode}
                 />
-                : <div onClick={handleCreateFile} className='flex cursor-pointer justify-center items-center w-[70%] h-[calc(100vh-96px)]'><h1 className='text-xl text-white uppercase tracking-[5px]'>Create a File</h1></div>}
+                : <div onClick={handleCreateFile} className='flex cursor-pointer justify-center items-center w-[70%] h-[calc(100vh-96px)]'>
+                    <h1 className='text-xl text-white uppercase tracking-[5px]'>Create a File</h1>
+                </div>}
         </div>
     )
 }

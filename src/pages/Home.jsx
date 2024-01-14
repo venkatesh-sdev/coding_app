@@ -1,12 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { Editor, loader } from '@monaco-editor/react';
 import React, { useEffect, useState } from 'react'
+import Menu from '../components/Menu';
+import FilesList from '../components/FilesList';
+import CodeEditor from '../components/CodeEditor';
+import Question from '../components/Question';
 
 const Home = () => {
     // States
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState(JSON.parse(localStorage.getItem('codeData')) || []);
     const [editorCode, setEditorCode] = useState('');
     const [isThemeLoaded, setIsThemeLoaded] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     // UseEffects
     useEffect(() => {
@@ -22,8 +27,6 @@ const Home = () => {
     const handleEditorChange = (code) => {
         setEditorCode(code);
     }
-
-    const [activeIndex, setActiveIndex] = useState(0);
 
     const handleCreateFile = () => {
         const newFile = {
@@ -64,53 +67,28 @@ const Home = () => {
     }
 
     const handleSaveFile = () => {
-        console.log(files);
+        localStorage.clear();
+        localStorage.setItem('codeData', JSON.stringify(files));
     }
 
-    const handleCompileCode = (id) => { }
+    const handleCompileCode = () => {
+    };
 
     return (
         <div className='w-screen h-screen bg-gray-800'>
             {/* Menu */}
-            <div className='flex gap-5 p-2 bg-black'>
-                <button onClick={handleCreateFile} className='bg-white text-gray-800 px-5 py-2 rounded-lg'>New File</button>
-                <button onClick={handleSaveFile} className='bg-white text-gray-800 px-5 py-2 rounded-lg'>Save File</button>
-                <button onClick={handleCompileCode} className='bg-white text-gray-800 px-5 py-2 rounded-lg'>Compile Code</button>
-            </div>
+            <Menu handleCompileCode={handleCompileCode} handleCreateFile={handleCreateFile} handleSaveFile={handleSaveFile} />
             {/* Files and Coding Space and Question */}
             <div className='flex'>
                 {/* Files and Coding Space */}
                 <div className='w-[70%]'>
                     {/* Files */}
-                    <div className='flex gap-1 w-full overflow-scroll'>
-                        {
-                            files.map(
-                                (file, index) =>
-                                    <div className='bg-gray-500 flex gap-3 w-fit  px-2 py-1' key={file.id}>
-                                        <button onClick={() => handleFileChange(index)} className=' text-white text-lg '>
-                                            {file.fileName}
-                                        </button>
-                                        <button onClick={() => handleCloseFile(file.id, index)} className='text-red-500'>X</button>
-                                    </div>
-                            )
-                        }
-                    </div>
+                    <FilesList files={files} handleCloseFile={handleCloseFile} handleFileChange={handleFileChange} />
                     {/* CodingSpace */}
-                    <div className='w-full h-[calc(100vh-96px)] flex relative'>
-                        {files.length !== 0 ?
-                            <Editor
-                                language='javascript'
-                                onChange={handleEditorChange}
-                                className='h-[calc(100vh-96px)]'
-                                width='100%'
-                                theme={isThemeLoaded ? "Blackboard" : "dark"}
-                                value={editorCode}
-                            />
-                            : <div onClick={handleCreateFile} className='flex cursor-pointer justify-center items-center w-[70%] h-[calc(100vh-96px)]'><h1 className='text-xl text-white'>Create a File</h1></div>}
-                    </div>
+                    <CodeEditor editorCode={editorCode} files={files} handleCreateFile={handleCreateFile} handleEditorChange={handleEditorChange} isThemeLoaded={isThemeLoaded} />
                 </div>
                 {/* Questions */}
-                <div className='w-[30%] h-[calc(100vh-56px)] bg-[#0000004c]'></div>
+                <Question />
             </div>
         </div>
     )
